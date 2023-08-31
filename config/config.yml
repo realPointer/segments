@@ -1,0 +1,9 @@
+app:
+  name: "segments"
+  version: '1.0.0'
+
+logger:
+  log_level: 'debug'
+
+postgres:
+  pool_max: 15
