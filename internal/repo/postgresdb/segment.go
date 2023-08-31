@@ -39,8 +39,8 @@ func (r *SegmentRepo) CreateSegmentAuto(ctx context.Context, name string, percen
 
 	sql, args, _ := r.Builder.
 		Insert("segments").
-		Columns("name").
-		Values(name).
+		Columns("name", "amount").
+		Values(name, percentage).
 		ToSql()
 
 	_, err = tx.Exec(ctx, sql, args...)
