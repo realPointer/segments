@@ -11,6 +11,7 @@ require (
 	github.com/jackc/pgx/v5 v5.4.3
 	github.com/rs/zerolog v1.30.0
 	github.com/swaggo/http-swagger/v2 v2.0.1
+	github.com/swaggo/swag v1.16.1
 )
 
 require (
@@ -34,7 +35,6 @@ require (
 	github.com/mattn/go-isatty v0.0.19 // indirect
 	github.com/robfig/cron/v3 v3.0.1 // indirect
 	github.com/swaggo/files/v2 v2.0.0 // indirect
-	github.com/swaggo/swag v1.16.1 // indirect
 	go.uber.org/atomic v1.11.0 // indirect
 	golang.org/x/crypto v0.12.0 // indirect
 	golang.org/x/sync v0.3.0 // indirect
