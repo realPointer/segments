@@ -1,0 +1,299 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "A service that stores a user and the segments they are a part of (creating, modifying, deleting segments, and adding and deleting users to a segment)",
+        "title": "Dynamic user segmentation service",
+        "contact": {
+            "name": "Andrew",
+            "url": "https://t.me/realPointer",
+            "email": "davletbaev.andrei@gmail.com"
+        },
+        "version": "1.0.0"
+    },
+    "host": "localhost:8080",
+    "basePath": "/v1",
+    "paths": {
+        "/segment/list": {
+            "get": {
+                "description": "Returns a list of segments",
+                "tags": [
+                    "Segment"
+                ],
+                "summary": "Get segments",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/segment/{segmentName}": {
+            "post": {
+                "description": "Creates a new segment with the given name",
+                "tags": [
+                    "Segment"
+                ],
+                "summary": "Create segment",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "segmentName",
+                        "name": "segmentName",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "auto",
+                        "name": "auto",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            },
+            "delete": {
+                "description": "Deletes a segment with the given name",
+                "tags": [
+                    "Segment"
+                ],
+                "summary": "Delete segment",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "segmentName",
+                        "name": "segmentName",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/user/{user_id}": {
+            "post": {
+                "description": "Creates a new user with the given ID",
+                "tags": [
+                    "User"
+                ],
+                "summary": "Create user",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "user_id",
+                        "name": "user_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/user/{user_id}/operations": {
+            "get": {
+                "description": "Returns a list of operations for the given user",
+                "tags": [
+                    "User"
+                ],
+                "summary": "Get user operations",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "user_id",
+                        "name": "user_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "date",
+                        "name": "date",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/user/{user_id}/operations/report-link": {
+            "get": {
+                "description": "Returns a link to a report with a list of operations for the given user",
+                "tags": [
+                    "User"
+                ],
+                "summary": "Get user operations report link",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "user_id",
+                        "name": "user_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "date",
+                        "name": "date",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/user/{user_id}/segments": {
+            "get": {
+                "description": "Returns a list of segments for the given user",
+                "tags": [
+                    "User"
+                ],
+                "summary": "Get user segments",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "user_id",
+                        "name": "user_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            },
+            "post": {
+                "description": "Adds or removes segments for the given user",
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "Add or remove user segments",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "user_id",
+                        "name": "user_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "segments",
+                        "name": "segments",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/v1.Segments"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "entity.AddSegment": {
+            "type": "object",
+            "properties": {
+                "expire": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "v1.Segments": {
+            "type": "object",
+            "properties": {
+                "add_segments": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/entity.AddSegment"
+                    }
+                },
+                "remove_segments": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    }
+}

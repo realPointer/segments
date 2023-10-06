@@ -26,6 +26,15 @@ func NewSegmentRouter(segmentService service.Segment, l logger.Interface) http.H
 	return r
 }
 
+// @Summary Create segment
+// @Description Creates a new segment with the given name
+// @Tags Segment
+// @Param segmentName path string true "segmentName"
+// @Param auto query string false "auto"
+// @Success 201
+// @Failure 400
+// @Failure 500
+// @Router /segment/{segmentName} [post]
 func (s *segmentRoutes) createSegment(w http.ResponseWriter, r *http.Request) {
 	segmentName := chi.URLParam(r, "segmentName")
 
@@ -53,6 +62,14 @@ func (s *segmentRoutes) createSegment(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusCreated)
 }
 
+// @Summary Delete segment
+// @Description Deletes a segment with the given name
+// @Tags Segment
+// @Param segmentName path string true "segmentName"
+// @Success 200
+// @Failure 400
+// @Failure 500
+// @Router /segment/{segmentName} [delete]
 func (s *segmentRoutes) deleteSegment(w http.ResponseWriter, r *http.Request) {
 	segmentName := chi.URLParam(r, "segmentName")
 	err := s.segmentService.DeleteSegment(r.Context(), segmentName)
@@ -65,6 +82,12 @@ func (s *segmentRoutes) deleteSegment(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 }
 
+// @Summary Get segments
+// @Description Returns a list of segments
+// @Tags Segment
+// @Success 200
+// @Failure 500
+// @Router /segment/list [get]
 func (s *segmentRoutes) getSegments(w http.ResponseWriter, r *http.Request) {
 	segments, err := s.segmentService.GetSegments(r.Context())
 	if err != nil {

@@ -1,0 +1,199 @@
+basePath: /v1
+definitions:
+  entity.AddSegment:
+    properties:
+      expire:
+        type: string
+      name:
+        type: string
+    type: object
+  v1.Segments:
+    properties:
+      add_segments:
+        items:
+          $ref: '#/definitions/entity.AddSegment'
+        type: array
+      remove_segments:
+        items:
+          type: string
+        type: array
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: davletbaev.andrei@gmail.com
+    name: Andrew
+    url: https://t.me/realPointer
+  description: A service that stores a user and the segments they are a part of (creating,
+    modifying, deleting segments, and adding and deleting users to a segment)
+  title: Dynamic user segmentation service
+  version: 1.0.0
+paths:
+  /segment/{segmentName}:
+    delete:
+      description: Deletes a segment with the given name
+      parameters:
+      - description: segmentName
+        in: path
+        name: segmentName
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
+      summary: Delete segment
+      tags:
+      - Segment
+    post:
+      description: Creates a new segment with the given name
+      parameters:
+      - description: segmentName
+        in: path
+        name: segmentName
+        required: true
+        type: string
+      - description: auto
+        in: query
+        name: auto
+        type: string
+      responses:
+        "201":
+          description: Created
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
+      summary: Create segment
+      tags:
+      - Segment
+  /segment/list:
+    get:
+      description: Returns a list of segments
+      responses:
+        "200":
+          description: OK
+        "500":
+          description: Internal Server Error
+      summary: Get segments
+      tags:
+      - Segment
+  /user/{user_id}:
+    post:
+      description: Creates a new user with the given ID
+      parameters:
+      - description: user_id
+        in: path
+        name: user_id
+        required: true
+        type: integer
+      responses:
+        "201":
+          description: Created
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
+      summary: Create user
+      tags:
+      - User
+  /user/{user_id}/operations:
+    get:
+      description: Returns a list of operations for the given user
+      parameters:
+      - description: user_id
+        in: path
+        name: user_id
+        required: true
+        type: integer
+      - description: date
+        in: query
+        name: date
+        type: string
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
+      summary: Get user operations
+      tags:
+      - User
+  /user/{user_id}/operations/report-link:
+    get:
+      description: Returns a link to a report with a list of operations for the given
+        user
+      parameters:
+      - description: user_id
+        in: path
+        name: user_id
+        required: true
+        type: integer
+      - description: date
+        in: query
+        name: date
+        type: string
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
+      summary: Get user operations report link
+      tags:
+      - User
+  /user/{user_id}/segments:
+    get:
+      description: Returns a list of segments for the given user
+      parameters:
+      - description: user_id
+        in: path
+        name: user_id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              type: string
+            type: array
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
+      summary: Get user segments
+      tags:
+      - User
+    post:
+      consumes:
+      - application/json
+      description: Adds or removes segments for the given user
+      parameters:
+      - description: user_id
+        in: path
+        name: user_id
+        required: true
+        type: integer
+      - description: segments
+        in: body
+        name: segments
+        required: true
+        schema:
+          $ref: '#/definitions/v1.Segments'
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
+      summary: Add or remove user segments
+      tags:
+      - User
+swagger: "2.0"

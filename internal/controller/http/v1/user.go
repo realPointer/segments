@@ -29,6 +29,14 @@ func NewUserRouter(userService service.User, l logger.Interface) http.Handler {
 	return r
 }
 
+// @Summary Create user
+// @Description Creates a new user with the given ID
+// @Tags User
+// @Param user_id path int true "user_id"
+// @Success 201
+// @Failure 400
+// @Failure 500
+// @Router /user/{user_id} [post]
 func (u *userRoutes) createUser(w http.ResponseWriter, r *http.Request) {
 	userIdStr := chi.URLParam(r, "user_id")
 
@@ -47,6 +55,14 @@ func (u *userRoutes) createUser(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusCreated)
 }
 
+// @Summary Get user segments
+// @Description Returns a list of segments for the given user
+// @Tags User
+// @Param user_id path int true "user_id"
+// @Success 200 {array} string
+// @Failure 400
+// @Failure 500
+// @Router /user/{user_id}/segments [get]
 func (u *userRoutes) getUserSegments(w http.ResponseWriter, r *http.Request) {
 	userIdStr := chi.URLParam(r, "user_id")
 
@@ -70,6 +86,16 @@ type Segments struct {
 	RemoveSegments []string            `json:"remove_segments"`
 }
 
+// @Summary Add or remove user segments
+// @Description Adds or removes segments for the given user
+// @Tags User
+// @Accept json
+// @Param user_id path int true "user_id"
+// @Param segments body Segments true "segments"
+// @Success 200
+// @Failure 400
+// @Failure 500
+// @Router /user/{user_id}/segments [post]
 func (u *userRoutes) addOrRemoveUserSegments(w http.ResponseWriter, r *http.Request) {
 	userIdStr := chi.URLParam(r, "user_id")
 
@@ -95,6 +121,15 @@ func (u *userRoutes) addOrRemoveUserSegments(w http.ResponseWriter, r *http.Requ
 	w.WriteHeader(http.StatusOK)
 }
 
+// @Summary Get user operations
+// @Description Returns a list of operations for the given user
+// @Tags User
+// @Param user_id path int true "user_id"
+// @Param date query string false "date"
+// @Success 200
+// @Failure 400
+// @Failure 500
+// @Router /user/{user_id}/operations [get]
 func (u *userRoutes) getUserOperations(w http.ResponseWriter, r *http.Request) {
 	userIdStr := chi.URLParam(r, "user_id")
 
@@ -127,6 +162,15 @@ func (u *userRoutes) getUserOperations(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+// @Summary Get user operations report link
+// @Description Returns a link to a report with a list of operations for the given user
+// @Tags User
+// @Param user_id path int true "user_id"
+// @Param date query string false "date"
+// @Success 200
+// @Failure 400
+// @Failure 500
+// @Router /user/{user_id}/operations/report-link [get]
 func (u *userRoutes) getUserOperationsYandex(w http.ResponseWriter, r *http.Request) {
 	userIdStr := chi.URLParam(r, "user_id")
 

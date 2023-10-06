@@ -9,6 +9,7 @@ import (
 	"github.com/realPointer/segments/internal/service"
 	"github.com/realPointer/segments/pkg/logger"
 
+	_ "github.com/realPointer/segments/docs"
 	httpSwagger "github.com/swaggo/http-swagger/v2"
 )
 
