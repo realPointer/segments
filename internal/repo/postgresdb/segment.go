@@ -52,7 +52,7 @@ func (r *SegmentRepo) CreateSegmentAuto(ctx context.Context, name string, percen
 		Select("id").
 		From("users").
 		OrderBy("RANDOM()").
-		Limit(uint64(float64(r.CountUsers(ctx)) * percentage / 100)).
+		Limit(uint64(float64(r.countUsers(ctx)) * percentage / 100)).
 		ToSql()
 
 	rows, err := tx.Query(ctx, sql, args...)
@@ -103,7 +103,7 @@ func (r *SegmentRepo) CreateSegmentAuto(ctx context.Context, name string, percen
 	return nil
 }
 
-func (r *SegmentRepo) CountUsers(ctx context.Context) int {
+func (r *SegmentRepo) countUsers(ctx context.Context) int {
 	sql, args, _ := r.Builder.
 		Select("count(*)").
 		From("users").
