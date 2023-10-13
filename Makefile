@@ -10,18 +10,18 @@ compose-down: ### Down docker-compose
 	docker-compose down --remove-orphans
 .PHONY: compose-down
 
-docker-rm-volume: ### remove docker volume
+docker-rm-volume: ### Remove docker volume
 	docker volume rm segments_pg-data
 .PHONY: docker-rm-volume
 
-linter-golangci: ### check by golangci linter
+linter-golangci: ### Check by golangci linter
 	golangci-lint run
 .PHONY: linter-golangci
 
-swag: ### generate swag docs
-	swag init -g internal/app/app.go --parseInternal --parseDependency
+swag: ### Generate swag docs
+	swag init -g cmd/app/main.go
 .PHONY: swag
 
-test: ### run test
+test: ### Run test
 	go test -v ./...
 .PHONY: test
