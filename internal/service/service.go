@@ -9,6 +9,8 @@ import (
 	webapi "github.com/realPointer/segments/internal/ydisk"
 )
 
+//go:generate mockgen -source=service.go -destination=mocks/mock.go
+
 type User interface {
 	CreateUser(ctx context.Context, userId int) error
 	GetUserSegments(ctx context.Context, userId int) ([]string, error)
