@@ -2,6 +2,7 @@ package repo
 
 import (
 	"context"
+	"time"
 
 	"github.com/realPointer/segments/internal/entity"
 	"github.com/realPointer/segments/internal/repo/postgresdb"
@@ -65,8 +66,14 @@ func NewRepositories(pg *postgres.Postgres) *Repositories {
 	}
 
 	return &Repositories{
-		User:    postgresdb.NewUserRepo(pg),
+		User:    postgresdb.NewUserRepo(pg, RealTimeProvider{}),
 		Segment: postgresdb.NewSegmentRepo(pg),
 		Expired: postgresdb.NewExpiredRepo(pg),
 	}
+}
+
+type RealTimeProvider struct{}
+
+func (r RealTimeProvider) Now() time.Time {
+	return time.Now()
 }

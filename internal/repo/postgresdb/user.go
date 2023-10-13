@@ -11,10 +11,18 @@ import (
 
 type UserRepo struct {
 	*postgres.Postgres
+	tp TimeProvider
 }
 
-func NewUserRepo(pg *postgres.Postgres) *UserRepo {
-	return &UserRepo{pg}
+func NewUserRepo(pg *postgres.Postgres, tp TimeProvider) *UserRepo {
+	return &UserRepo{
+		Postgres: pg,
+		tp:       tp,
+	}
+}
+
+type TimeProvider interface {
+	Now() time.Time
 }
 
 func (r *UserRepo) CreateUser(ctx context.Context, userId int) error {
@@ -112,7 +120,7 @@ func (r *UserRepo) AddOrRemoveUserSegments(ctx context.Context, userId int, addS
 			sql, args, _ = r.Builder.
 				Insert("user_segments").
 				Columns("user_id", "segment_name", "expire").
-				Values(userId, segment.Name, time.Now().Add(expire)).
+				Values(userId, segment.Name, r.tp.Now().Add(expire)).
 				ToSql()
 
 			_, err = tx.Exec(ctx, sql, args...)
